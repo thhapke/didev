@@ -1,0 +1,106 @@
+{
+    "properties": {},
+    "description": "Export Datasets to Thatalog",
+    "processes": {
+        "externalcatalog1": {
+            "component": "metadata.external_catalog",
+            "metadata": {
+                "label": "External Catalog",
+                "x": 181,
+                "y": 12,
+                "height": 80,
+                "width": 120,
+                "extensible": true,
+                "filesRequired": [
+                    "script.py"
+                ],
+                "generation": 2,
+                "config": {
+                    "http_connection": {
+                        "connectionID": "Thatalog"
+                    }
+                }
+            }
+        },
+        "graphterminator1": {
+            "component": "com.sap.util.graphTerminator.v2",
+            "metadata": {
+                "label": "Graph Terminator",
+                "x": 350,
+                "y": 12,
+                "height": 80,
+                "width": 120,
+                "generation": 2,
+                "config": {},
+                "inports": [
+                    {
+                        "name": "in",
+                        "type": "scalar",
+                        "isPropagated": true,
+                        "vtype-ID": "com.sap.core.string"
+                    }
+                ]
+            }
+        },
+        "exportdatasets1": {
+            "component": "metadata.export_datasets",
+            "metadata": {
+                "label": "Export Datasets",
+                "x": 12,
+                "y": 12,
+                "height": 80,
+                "width": 120,
+                "extensible": true,
+                "filesRequired": [
+                    "script.py"
+                ],
+                "generation": 2,
+                "config": {
+                    "connection_id": {
+                        "connectionID": "ECC_DMIS_2018"
+                    },
+                    "container": "/TABLES/BC/SRV/NWD/SNWD_PO",
+                    "tags": true,
+                    "http_connection": {
+                        "connectionID": "MetadataAPI"
+                    },
+                    "streaming": false
+                }
+            }
+        }
+    },
+    "groups": [],
+    "connections": [
+        {
+            "metadata": {
+                "points": "305,52 345,52"
+            },
+            "src": {
+                "port": "output",
+                "process": "externalcatalog1"
+            },
+            "tgt": {
+                "port": "in",
+                "process": "graphterminator1"
+            }
+        },
+        {
+            "metadata": {
+                "points": "136,52 176,52"
+            },
+            "src": {
+                "port": "datasets",
+                "process": "exportdatasets1"
+            },
+            "tgt": {
+                "port": "input",
+                "process": "externalcatalog1"
+            }
+        }
+    ],
+    "inports": {},
+    "outports": {},
+    "metadata": {
+        "generation": 2
+    }
+}
